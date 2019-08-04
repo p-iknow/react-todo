@@ -12,21 +12,30 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js)$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader']
       },
       {
-        test: /\.sass$/,
+        test: /\.scss$/,
         use: [
-          { loader: 'style-loader' },
           {
-            loader: 'sass-loader',
+            loader: 'style-loader',
             options: {
-              modules: true,
-              camelCase: true,
               sourceMap: true
             }
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[local]'
+              },
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'sass-loader'
           }
         ]
       }
