@@ -3,7 +3,7 @@ import './TodoItem.scss';
 
 class TodoItem extends Component {
   render() {
-    const { text, checked, id, onToggle, onRemove } = this.props;
+    const { title, id, onToggle, onRemove } = this.props;
 
     return (
       <div
@@ -20,10 +20,9 @@ class TodoItem extends Component {
         >
           &times;
         </div>
-        <div className={`todo-text ${checked ? 'checked' : ''}`}>
-          <div>{text}</div>
+        <div className="todo-text">
+          <div>{title}</div>
         </div>
-        {checked && <div className="check-mark">&#x2713;</div>}
       </div>
     );
   }

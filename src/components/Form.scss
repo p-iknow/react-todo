@@ -1,29 +1,35 @@
 .form {
   display: flex;
 
+  .input-title {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-right: 1rem;
+  }
+
   & input {
     background: $color-box-bg;
     flex: 1;
     font-size: 1.25rem;
     outline: none;
     border: none;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid $color-input-border;
   }
-}
 
-.create-button {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  margin-left: 1rem;
-  background: $high-blue-sky;
-  border-radius: 3px;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
+  .create-button {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: 1rem;
+    background: $color-primary;
+    border-radius: 3px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
 
-  &:hover {
-    background: $color-hover;
+    &:hover {
+      background: $color-hover;
+    }
   }
 }
