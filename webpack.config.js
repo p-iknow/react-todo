@@ -35,7 +35,11 @@ module.exports = {
             }
           },
           {
-            loader: 'sass-loader'
+            loader: 'sass-loader',
+            options: {
+              includePaths: [`${__dirname}/src/scss`],
+              data: `@import 'variables';`
+            }
           }
         ]
       }
