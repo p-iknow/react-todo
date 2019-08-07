@@ -17,6 +17,7 @@
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^3.1.0",
@@ -24,6 +25,7 @@
     "eslint-config-airbnb": "17.1.1",
     "eslint-config-prettier": "^6.0.0",
     "eslint-import-resolver-webpack": "^0.11.1",
+    "eslint-plugin-babel": "^5.3.0",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.2",
@@ -37,6 +39,18 @@
     "webpack-dev-server": "^3.7.2"
   },
   "eslintConfig": {
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true,
+        "impliedStrict": true
+      }
+    },
+    "plugins": [
+      "babel"
+    ],
     "extends": [
       "airbnb",
       "prettier"
@@ -45,6 +59,7 @@
       "jsx-a11y/no-static-element-interactions": "off",
       "jsx-a11y/click-events-have-key-events": "off",
       "jsx-a11y/interactive-supports-focus": "off",
+      "import/no-extraneous-dependencies": "off",
       "import/extensions": "off",
       "import/no-unresolved": "off",
       "comma-dangle": [
@@ -56,7 +71,8 @@
       "react/prop-types": "off",
       "react/prefer-stateless-function": 0,
       "react/jsx-filename-extension": 0,
-      "react/jsx-one-expression-per-line": 0
+      "react/jsx-one-expression-per-line": 0,
+      "babel/semi": 0
     },
     "env": {
       "browser": true
