@@ -1,6 +1,4 @@
-
-
-## 1. babel과 Webpack을 활용해서 React 빌드 환경을 구성
+1. babel과 Webpack을 활용해서 React 빌드 환경을 구성
 
 ## 1-1 필요한 Lib 
 
@@ -40,7 +38,7 @@ yarn add @babel/core babel-loader @babel/preset-env babel-preset-react sass-load
 
 ## 1-3 Babel 설정 
 
-##### babel 설정 파일 생성
+### babel 설정 파일 생성
 
 ```bash
 touch babel.config.js 
@@ -48,7 +46,7 @@ touch babel.config.js
 vi bable.config.js
 ```
 
-##### babel 세팅
+### babel 세팅
 
 ```js
 // babel.config.js
@@ -56,7 +54,13 @@ module.exports = function(api) {
   api.cache(true);
   // 여기 프리셋 및 플러그인에 추가한 것들을 babel-loader를 통해 webpack에서 사용한다.
   const presets = [['@babel/preset-env'], ['@babel/preset-react']];
-  const plugins = ['react-hot-loader/babel'];
+
+  const plugins = [
+    'react-hot-loader/babel',
+    // class property 
+    '@babel/plugin-proposal-class-properties',
+    '@babel/plugin-transform-runtime'
+  ];
 
   return {
     presets,
@@ -65,6 +69,12 @@ module.exports = function(api) {
 };
 
 ```
+
+### plugin 
+
+- [react-hot-loader/babel](https://github.com/gaearon/react-hot-loader) : react 프로젝트의 코드 변동시 새로고침이 아닌 변경된 부분만 동적으로 업데이트 되는 옵션)
+- [@babel/plugin-proposal-class-properties](https://github.com/tc39/proposal-class-fields) : TC39 stage 3에 있는 class propery를 사용하기 위한 플러그인이다. 아직 stage에 있는 기능을 코드에 사용하기 위해서는 바벨 설정에 해당 플러그인을 등록해야 한다. 
+-  [@babel/plugin-transform-runtime](https://babeljs.io/docs/en/babel-plugin-transform-runtime) : babel 7 이전 버전에서 `@babel/polyfill` 로 폴리필을 설정했으나, 해당 설정은 전역 공간에 폴리필 코드를 노출시켜 전역공간을 오염시키는 이슈가 있었고, 이런 부분을 해결하기 위해 도입되었다. 이 설정을 통해 `async` 같은 함수를 코드에 포함시킬 수 있다. 자세한 내용은 [링크](https://babeljs.io/docs/en/babel-plugin-transform-runtime#why)를 참조하자. 필자는 이 [링크](https://www.valentinog.com/blog/await-react/)를 참조하여 설정을 진행했다.  
 
 ## 1-4 Webpack 설정 
 
@@ -78,9 +88,9 @@ vi webpack.config.js
 #### webpack 세팅 
 
 ```js
-// HtmlWebpackPlugin 모듈 불러옴
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// dev-server port 번호를 위한 변수 지장
+const { DefinePlugin } = require('webpack');
+
 const port = process.env.PORT || 8080;
 
 module.exports = {
@@ -88,35 +98,62 @@ module.exports = {
   entry: './src/index.js',
   output: {
     path: `${__dirname}/dist`,
-    filename: 'bundle[hash].js'
+    filename: 'bundle.[hash].js'
   },
   module: {
     rules: [
       {
-        test: /\.(js)$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader']
       },
       {
-        test: /\.sass$/,
+        test: /\.scss$/,
         use: [
-          { loader: 'style-loader' },
+          {
+            loader: 'style-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[local]'
+              },
+              sourceMap: true
+            }
+          },
           {
             loader: 'sass-loader',
             options: {
-              modules: true,
-              camelCase: true,
-              sourceMap: true
+              includePaths: [`${__dirname}/src/scss`],
+              data: `@import 'variables';`
             }
           }
         ]
+      },
+      {
+        test: /\.(svg|jpg|png)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 25000
+          }
+        }
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      favicon: 'public/favicon.ico'
+      template: './public/index.html',
+      favicon: './public/favicon.ico'
+    }),
+    new DefinePlugin({
+      FetchUrl: JSON.stringify(
+        'https://h3rb9c0ugl.execute-api.ap-northeast-2.amazonaws.com/develop/todolist'
+      )
     })
   ],
   devtool: 'inline-source-map',
@@ -125,7 +162,8 @@ module.exports = {
     port,
     open: true,
     historyApiFallback: true,
-    hot: true
+    hot: true,
+    inline: true
   }
 };
 
@@ -178,20 +216,33 @@ module.exports = {
           use: ['babel-loader']
         },
         // sass-loader
-        {
-          test: /\.sass$/,
+      	{
+          test: /\.scss$/,
           use: [
-            { loader: 'style-loader' },
+            {
+              loader: 'style-loader',
+              options: {
+                sourceMap: true
+              }
+            },
+            {
+              loader: 'css-loader',
+              options: {
+                modules: {
+                  localIdentName: '[local]'
+                },
+                sourceMap: true
+              }
+            },
             {
               loader: 'sass-loader',
               options: {
-                modules: true,
-                camelCase: true,
-                sourceMap: true
+                includePaths: [`${__dirname}/src/scss`],
+                data: `@import 'variables';`
               }
             }
           ]
-        }
+        },
       ]
     }
 }
@@ -210,11 +261,14 @@ module.exports = {
 
 - `test: /\.sass$/` : .sass 끝나는 파일을 대상으로 로더를 적용한다. (sass 가 아닌 css를 사용한다면 `/\.css/` 를 적용하면 된다.)
 - `loader: 'style-loader'` : `.css` 파일을 style 태그로 만든 뒤 `html`의 ` <head>` 내부에 선언해주는 역할을 한다
+- `loader: 'css-loader'` : `import '/.css'` 처럼 .jsx or js 파일에서 css 파일을 import할 수 있게 해준다. 
 - `loader: 'sass-loader'` , `option: {modules: true,
   camelCase: true,
   sourceMap: true}` : .js파일에서 import 또는 require로 .sass파일을 가져올수 있게 해준다. 나머지 옵션에 관한 내용은 아래 예시를 참고하자
 
-#### 예시
+#### option 관련
+
+##### module, camelCase
 
 ```css
 /styles/commentlog.sass
@@ -224,7 +278,7 @@ module.exports = {
 }
 ```
 
-라는 .sass파일이 있다면
+라는 .scss파일이 있다면
 
 ```javascript
 // /src/App.js
@@ -233,14 +287,35 @@ module.exports = {
 // camelcase 옵션으로 .comment-log -> commentLog 변수 선언 가능
 import { commentLog } from '../styles/commentlog.css
 
-// sourceMap 의 경우 나중에 debug 모드에서 병합된 css 파일이 아닌 원 소스 `.sass` 를 통해 debug 할 수 있도록 지원  
 ```
 
 이렇게 불러와 사용할 수 있다.
 
- sourceMap 의 경우 나중에 debug 모드에서 병합된 css 파일이 아닌 원 소스 `.sass` 를 통해 debug 할 수 있도록 지원  
+##### sourceMap
+
+  sourceMap 의 경우 나중에 debug 모드에서 병합된 css 파일이 아닌 원 소스 `.sass` 를 통해 debug 할 수 있도록 지원  
 
 ![Sass sourcemap reference in Chrome](assets/chrome-sourcemap-reference.png)
+
+##### includePaths, data 
+
+scss 를 사용하는 경우 자주 사용하는 변수 or mixin을 별도에 파일로 지정해두고 각 컴포넌트의 css에서 import(`import ../scss/variable.scss, import ../scss/mixin.scss`)해서 쓰는 경우가 많다. 
+
+```js
+import '../scss/variable.scss'
+import '../scss/mixin.scss'
+```
+
+이 때 `includePaths` 옵션의 경우 해당 value 값에 지정된 path를 import path 앞에 자동으로 붙여줘 path를 간략하게 쓰도록 도와준다.
+
+```js
+// import '../scss/variable.scss'
+// 대신 이렇게 작성이 가능하다. 
+import 'variable.scss' 
+
+```
+
+`import 'variable.scss' ` 마저도 생략하고 싶을 때 `data`  옵션을 사용하면 된다. `scss` 파일이 import 될 때 마다 data 에 등록된 내용이 `import ` 되어 별도의 `import` 없이 `variable` 에 있는 변수를 사용할 수 있다.  
 
 ### devtool, devServer
 
@@ -298,13 +373,81 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       favicon: 'public/favicon.ico'
+    }),
+     new DefinePlugin({
+      FetchUrl: JSON.stringify(
+        'https://h3rb9c0ugl.execute-api.ap-northeast-2.amazonaws.com/develop/todolist'
+      )
     })
   ],
 };
 ```
 
+#### HtmlWebpackPlugin
+
 - 위에서 등록한 HtmlWebpackPlugin은 생성된 .html파일과 .favicon파일을 번들링과정에 포함시키는 플러그인이다.
 - 위 플러그인을 설정하지 않는다면 dist.html 파일에 매번 bundle.[hash].js를  추가해줘야 해서 번거롭다.
+
+#### DefinePlugin
+
+보통 `fetch` 요청을 위한 api 주소 같은 내용을 config.js 파일에 두고 import 에서 쓰는 경우가 많다. webpack을 통해 빌드할 경우 DefinePlugin을 통해 webpack 컴파일 시점에 해당 config 내용이 반영되도록 세팅할 수 있다. 
+
+ 아래에서 FetchUrl 의 value를 등록하고 코드에 사용하면
+
+```js
+const { DefinePlugin } = require('webpack');
+new DefinePlugin({
+      FetchUrl: JSON.stringify(
+        'https://h3rb9c0ugl.execute-api.ap-northeast-2.amazonaws.com/develop/todolist'
+      )
+    })
+```
+
+webPack을 통해 complie 될 때 플러그인에 등록한 코드로 바뀌게 된다. 
+
+```js
+class App extends Component {
+  state = { todos: [], folded: false };
+
+  async componentDidMount() {
+    const errorMsg = ERROR_MSG.FETCh;
+    try {
+      // 아래 FetchUrl = 'https://h3rb9c0ugl.execute-api.ap-northeast-2.amazonaws.com/develop/todolist'
+      const response = await fetch(FetchUrl);
+      if (!response.ok) throw new Error(errorMsg);
+
+      const data = await response.json();
+
+      if (!data.statusCode === 200) throw new Error(errorMsg);
+
+      this.setState({ todos: data.body });
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+```
+
+Defineplugin 이외에도 [EnvironmentPlugin](https://webpack.js.org/plugins/environment-plugin/), [dotenv](https://www.npmjs.com/package/dotenv) 라는 패키지를 사용할 수 있다. 
+
+```js
+new webpack.EnvironmentPlugin({
+  NODE_ENV: 'development',
+  DEBUG: false
+});
+
+
+// 변수를 사용할 때는 아래와 같이 사용한다.
+process.env.NODE_ENV
+```
+
+위 코드는 아래와 같은 역할을 한다. 
+
+```js
+new webpack.DefinePlugin({
+  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+  'process.env.DEBUG': JSON.stringify(process.env.DEBUG)
+});
+```
 
 ## 1-5 React 
 
