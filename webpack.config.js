@@ -1,9 +1,13 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { DefinePlugin } = require('webpack');
 
 const port = process.env.PORT || 8080;
 
 module.exports = {
   mode: 'development',
+  externals: {
+    fetchUrl: ['./config']
+  },
   entry: './src/index.js',
   output: {
     path: `${__dirname}/dist`,
@@ -42,13 +46,27 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.(svg|jpg|png)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 25000
+          }
+        }
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      favicon: 'public/favicon.ico'
+      template: './public/index.html',
+      favicon: './public/favicon.ico'
+    }),
+    new DefinePlugin({
+      FetchUrl: JSON.stringify(
+        'https://h3rb9c0ugl.execute-api.ap-northeast-2.amazonaws.com/develop/todolist'
+      )
     })
   ],
   devtool: 'inline-source-map',

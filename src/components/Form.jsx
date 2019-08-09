@@ -1,9 +1,17 @@
 import React from 'react';
 import './Form.scss';
 
-const Form = ({ value, onChange, onCreate, onKeyPress }) => {
+const Form = ({
+  value,
+  folded,
+  onFoldClick,
+  onChange,
+  onCreate,
+  onKeyPress
+}) => {
   return (
     <div className="form">
+      <i className={`fold-button far fa-caret-square-${folded? 'down':'up'}`}></i>
       <input
         type="text"
         value={value}
