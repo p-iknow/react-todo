@@ -1,9 +1,9 @@
 import { hot } from 'react-hot-loader/root';
 import React, { Component } from 'react';
-import TodoListTemplate from './TodoListTemplate.jsx';
-import TodoItemList from './TodoItemList.jsx';
-import Form from './Form.jsx';
-import { ERROR_MSG } from '../constants';
+import TodoListTemplate from './components/TodoListTemplate.jsx';
+import TodoItemList from './components/TodoItemList.jsx';
+import Form from './components/Form.jsx';
+import { ERROR_MSG } from './constants';
 
 class App extends Component {
   state = { todos: [], folded: false };
