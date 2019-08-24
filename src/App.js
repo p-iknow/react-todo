@@ -7,9 +7,9 @@ import Status from './components/Status.jsx';
 import { ERROR_MSG } from './constants';
 
 class App extends Component {
-  state = { todos: [] };
+  state = { input: '', todos: [] };
 
-  async componentDidMount() {
+  componentDidMount = async () => {
     const errorMsg = ERROR_MSG.FETCh;
     try {
       const response = await fetch(FetchUrl);
@@ -23,12 +23,51 @@ class App extends Component {
     } catch (err) {
       console.warn(err);
     }
-  }
+  };
+
+  onChange = ({ target }) => {
+    this.setState({
+      input: target.value
+    });
+  };
+
+  onCreate = () => {
+    const { input, todos } = this.state;
+    this.setState({
+      input: '',
+      todos: [
+        ...todos,
+        {
+          id: Date.now(),
+          title: input,
+          status: 'todo'
+        }
+      ]
+    });
+  };
+
+  onKeyPress = ({ key }) => {
+    if (key === 'Enter') {
+      this.onCreate();
+    }
+  };
 
   render() {
-    const { todos } = this.state;
+    const { input, todos } = this.state;
+    const { onChange, onCreate, onKeyPress } = this;
+
     return (
-      <TodoListTemplate form={<Form />} status={<Status />}>
+      <TodoListTemplate
+        form={
+          <Form
+            value={input}
+            onCreate={onCreate}
+            onChange={onChange}
+            onKeyPress={onKeyPress}
+          />
+        }
+        status={<Status />}
+      >
         <TodoItemList todos={todos} />
       </TodoListTemplate>
     );
