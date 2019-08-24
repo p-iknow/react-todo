@@ -20,19 +20,20 @@
 }
 
 .status-wrapper {
-  padding-bottom: 1rem;
+  padding-bottom: 1.5rem;
   border-bottom: 2px solid $color-border;
 }
 
-.todo-wrapper {
+.todos-wrapper {
+  margin-top: 0.5rem;
   min-height: 5rem;
 }
 
-.fold-button {
-  position: absolute;
-  color: grey;
-  font-size: 2rem;
-  left: 246px;
-  top: 234px;
-  cursor: pointer;
-}
+// .fold-button {
+//   position: absolute;
+//   color: grey;
+//   font-size: 2rem;
+//   left: 246px;
+//   top: 234px;
+//   cursor: pointer;
+// }
