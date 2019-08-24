@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { MdDone, MdDelete } from 'react-icons/md';
 import './TodoItem.scss';
 
 class TodoItem extends Component {
@@ -12,6 +13,9 @@ class TodoItem extends Component {
           onToggle(id);
         }}
       >
+        <div className={`check-circle ${status === 'done' && 'done'}`}>
+          {status === 'done' && <MdDone />}
+        </div>
         <div className={`todo-text ${status === 'done' && 'checked'}`}>
           <div>{title}</div>
         </div>
@@ -22,7 +26,7 @@ class TodoItem extends Component {
             onRemove(id);
           }}
         >
-          &times;
+          <MdDelete />
         </div>
       </div>
     );

@@ -6,15 +6,36 @@
   transition: all 0.15;
   user-select: none;
 
+  .check-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 16px;
+    border: 1px solid #ced4da;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    cursor: pointer;
+
+    &.done {
+      border: 1px solid #9d5edb;
+      color: #9d5edb;
+    }
+  }
+
   .remove {
     margin-right: 1rem;
-    color: #e64980;
+    font-size: 1.7rem;
+    color: #a3a1a1a4;
     font-weight: 600;
     opacity: 0;
   }
 
   .todo-text {
     flex: 1;
+    font-size: 1.125rem;
+    color: darken(grey, 15%);
     word-break: break-all;
   }
 
@@ -22,18 +43,8 @@
     text-decoration: line-through;
     color: #adb5bd;
   }
-
-  .check-mark {
-    font-size: 1.5rem;
-    line-height: 1rem;
-    margin-left: 1rem;
-    color: $color-primary;
-    font-weight: 800;
-  }
 }
 .todo-item:hover {
-  background: $color-item-hover;
-
   .remove {
     opacity: 1;
   }
