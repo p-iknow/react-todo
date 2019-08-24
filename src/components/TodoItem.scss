@@ -25,11 +25,22 @@
   }
 
   .remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-right: 1rem;
     font-size: 1.7rem;
     color: #a3a1a1a4;
     font-weight: 600;
     opacity: 0;
+    &:hover {
+      color: #ff6b6b;
+    }
+  }
+  &:hover {
+    .remove {
+      opacity: 1;
+    }
   }
 
   .todo-text {
@@ -42,10 +53,5 @@
   .checked {
     text-decoration: line-through;
     color: #adb5bd;
-  }
-}
-.todo-item:hover {
-  .remove {
-    opacity: 1;
   }
 }

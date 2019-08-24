@@ -68,9 +68,17 @@ class App extends Component {
     });
   };
 
+  onRemove = id => {
+    const { todos } = this.state;
+    const nextTodos = todos.filter(todo => todo.id !== id);
+    this.setState({
+      todos: nextTodos
+    });
+  };
+
   render() {
     const { input, todos } = this.state;
-    const { onChange, onCreate, onKeyPress, onToggle } = this;
+    const { onChange, onCreate, onKeyPress, onToggle, onRemove } = this;
 
     return (
       <TodoListTemplate
@@ -84,7 +92,7 @@ class App extends Component {
         }
         status={<Status />}
       >
-        <TodoItemList onToggle={onToggle} todos={todos} />
+        <TodoItemList onToggle={onToggle} onRemove={onRemove} todos={todos} />
       </TodoListTemplate>
     );
   }
