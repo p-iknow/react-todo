@@ -1,0 +1,17 @@
+.status {
+  display: flex;
+  justify-content: space-around;
+
+  .counter {
+    border: 1px solid $color-input-border;
+    border-radius: 7%;
+    width: 4.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    text-align: center;
+    color: grey;
+    font-weight: bold;
+  }
+}

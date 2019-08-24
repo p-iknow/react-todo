@@ -11,6 +11,9 @@ class TodoItem extends Component {
         className="todo-item"
         onClick={() => onToggle(id)}
       >
+        <div className="todo-text">
+          <div>{title}</div>
+        </div>
         <div
           className="remove"
           onClick={e => {
@@ -19,9 +22,6 @@ class TodoItem extends Component {
           }}
         >
           &times;
-        </div>
-        <div className="todo-text">
-          <div>{title}</div>
         </div>
       </div>
     );

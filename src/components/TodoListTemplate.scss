@@ -1,4 +1,5 @@
 .todo-list-template {
+  position: relative;
   background: $color-box-bg;
   width: 512px;
   box-shadow: $box-shadow;
@@ -18,10 +19,20 @@
   padding: 1rem;
 }
 
-.nav-wrapper {
+.status-wrapper {
+  padding-bottom: 1rem;
   border-bottom: 2px solid $color-border;
 }
 
 .todo-wrapper {
   min-height: 5rem;
+}
+
+.fold-button {
+  position: absolute;
+  color: grey;
+  font-size: 2rem;
+  left: 246px;
+  top: 234px;
+  cursor: pointer;
 }

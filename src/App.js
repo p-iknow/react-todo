@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 import TodoListTemplate from './components/TodoListTemplate.jsx';
 import TodoItemList from './components/TodoItemList.jsx';
 import Form from './components/Form.jsx';
+import Status from './components/Status.jsx';
 import { ERROR_MSG } from './constants';
 
 class App extends Component {
-  state = { todos: [], folded: false };
+  state = { todos: [] };
 
   async componentDidMount() {
     const errorMsg = ERROR_MSG.FETCh;
@@ -25,9 +26,9 @@ class App extends Component {
   }
 
   render() {
-    const { todos, folded } = this.state;
+    const { todos } = this.state;
     return (
-      <TodoListTemplate form={<Form folded={folded} />}>
+      <TodoListTemplate form={<Form />} status={<Status />}>
         <TodoItemList todos={todos} />
       </TodoListTemplate>
     );
