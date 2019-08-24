@@ -52,9 +52,25 @@ class App extends Component {
     }
   };
 
+  onToggle = id => {
+    const { todos } = this.state;
+    const index = todos.findIndex(todo => todo.id === id);
+    const selected = todos[index];
+    const selectedStatus = selected.status;
+    const nextTodos = [...todos];
+    nextTodos[index] = {
+      ...selected,
+      status: selectedStatus === 'done' ? 'todo' : 'done'
+    };
+
+    this.setState({
+      todos: nextTodos
+    });
+  };
+
   render() {
     const { input, todos } = this.state;
-    const { onChange, onCreate, onKeyPress } = this;
+    const { onChange, onCreate, onKeyPress, onToggle } = this;
 
     return (
       <TodoListTemplate
@@ -68,7 +84,7 @@ class App extends Component {
         }
         status={<Status />}
       >
-        <TodoItemList todos={todos} />
+        <TodoItemList onToggle={onToggle} todos={todos} />
       </TodoListTemplate>
     );
   }

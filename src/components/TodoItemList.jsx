@@ -7,7 +7,9 @@ class TodoItemList extends Component {
     const list = todos.map(todo => (
       <TodoItem
         key={todo.id}
+        id={todo.id}
         title={todo.title}
+        status={todo.status}
         onToggle={onToggle}
         onRemove={onRemove}
       />
