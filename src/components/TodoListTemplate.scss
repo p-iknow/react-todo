@@ -11,7 +11,7 @@
   padding: 2rem;
   font-size: 2.5rem;
   text-align: center;
-  font-weight: 100;
+  font-weight: 400;
   background: $color-bg;
   color: white;
 }
@@ -25,15 +25,6 @@
 }
 
 .todos-wrapper {
-  margin-top: 0.5rem;
-  min-height: 5rem;
+  transition: max-height 0.4s;
+  overflow: hidden;
 }
-
-// .fold-button {
-//   position: absolute;
-//   color: grey;
-//   font-size: 2rem;
-//   left: 246px;
-//   top: 234px;
-//   cursor: pointer;
-// }

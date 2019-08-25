@@ -4,10 +4,13 @@ import TodoListTemplate from './components/TodoListTemplate.jsx';
 import TodoItemList from './components/TodoItemList.jsx';
 import Form from './components/Form.jsx';
 import Status from './components/Status.jsx';
+import Subtitle from './components/Subtitle.jsx';
 import { ERROR_MSG } from './constants';
 
 class App extends Component {
-  state = { input: '', todos: [] };
+  state = { input: '', todos: [], folded: false, height: '0px' };
+
+  todoWrapperHeight = React.createRef('');
 
   componentDidMount = async () => {
     const errorMsg = ERROR_MSG.FETCh;
@@ -76,9 +79,26 @@ class App extends Component {
     });
   };
 
+  onFold = () => {
+    const { folded } = this.state;
+    const { todoWrapperHeight } = this;
+    this.setState({
+      folded: !folded,
+      height: folded ? `${todoWrapperHeight.current.scrollHeight}px` : '0px'
+    });
+  };
+
   render() {
-    const { input, todos } = this.state;
-    const { onChange, onCreate, onKeyPress, onToggle, onRemove } = this;
+    const { input, todos, folded, height } = this.state;
+    const {
+      onChange,
+      onCreate,
+      onKeyPress,
+      onToggle,
+      onRemove,
+      onFold,
+      todoWrapperHeight
+    } = this;
 
     return (
       <TodoListTemplate
@@ -91,6 +111,10 @@ class App extends Component {
           />
         }
         status={<Status />}
+        folded={folded}
+        height={height}
+        refTodoWrapperHeight={todoWrapperHeight}
+        subtitle={<Subtitle folded={folded} onFold={onFold} />}
       >
         <TodoItemList onToggle={onToggle} onRemove={onRemove} todos={todos} />
       </TodoListTemplate>

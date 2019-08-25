@@ -3,13 +3,17 @@
   justify-content: space-around;
 
   .counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: 1px solid $color-input-border;
-    border-radius: 7%;
-    width: 4.5rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    border-radius: 5%;
+    width: 8rem;
+    min-height: 3.125rem;
+    // padding-top: 1rem;
+    // padding-bottom: 1rem;
+    // padding-left: 2rem;
+    // padding-right: 2rem;
     text-align: center;
     color: grey;
     font-weight: bold;

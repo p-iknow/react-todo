@@ -3,19 +3,19 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  transition: all 0.15;
   user-select: none;
 
   .check-circle {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border-radius: 16px;
-    border: 1px solid #ced4da;
+    border: 1px solid grey;
     font-size: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 20px;
+    margin-left: 0.3rem;
+    margin-right: 10px;
     cursor: pointer;
 
     &.done {
@@ -38,6 +38,7 @@
     }
   }
   &:hover {
+    background: darken($color-box-bg, 10%);
     .remove {
       opacity: 1;
     }

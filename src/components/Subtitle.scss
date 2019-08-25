@@ -1,0 +1,33 @@
+.subtitle {
+  // background: $color-box-bg;
+  color: grey;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  padding-top: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 0.5rem;
+
+  .name {
+    flex: 1;
+    font-size: 1.4rem;
+  }
+  .fold {
+    margin-right: 0.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.725rem;
+    transition: transform 0.4s ease;
+    border-radius: 50%;
+
+    &:hover {
+      background-color: darken($color-box-bg, 10%);
+    }
+
+    &.rotate {
+      transform: rotate(-90deg);
+    }
+  }
+}
