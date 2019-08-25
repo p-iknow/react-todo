@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import TodoItem from './TodoItem.jsx';
+import Loader from './Loader.jsx';
 
 class TodoItemList extends Component {
   render() {
-    const { todos, onToggle, onRemove } = this.props;
+    const { todos, onToggle, onRemove, loading } = this.props;
+
+    if (loading) return <Loader />;
+
     const list = todos.map(todo => (
       <TodoItem
         key={todo.id}
@@ -14,6 +18,7 @@ class TodoItemList extends Component {
         onRemove={onRemove}
       />
     ));
+
     return <div>{list}</div>;
   }
 }

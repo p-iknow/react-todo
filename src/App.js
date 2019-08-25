@@ -5,13 +5,17 @@ import TodoItemList from './components/TodoItemList.jsx';
 import Form from './components/Form.jsx';
 import Status from './components/Status.jsx';
 import Subtitle from './components/Subtitle.jsx';
+import { sleep } from './utils';
+
 import { ERROR_MSG } from './constants';
 
 class App extends Component {
-  state = { input: '', todos: [], folded: false };
+  state = { input: '', todos: [], folded: false, loading: true };
 
   componentDidMount = async () => {
     const errorMsg = ERROR_MSG.FETCh;
+    // 2초간 loading 화면을 보여주기 위한 세팅
+    await sleep();
     try {
       const response = await fetch(FetchUrl);
       if (!response.ok) throw new Error(errorMsg);
@@ -20,7 +24,7 @@ class App extends Component {
 
       if (!data.statusCode === 200) throw new Error(errorMsg);
 
-      this.setState({ todos: data.body });
+      this.setState({ todos: data.body, loading: false });
     } catch (err) {
       console.warn(err);
     }
@@ -85,16 +89,8 @@ class App extends Component {
   };
 
   render() {
-    const { input, todos, folded, height } = this.state;
-    const {
-      onChange,
-      onCreate,
-      onKeyPress,
-      onToggle,
-      onRemove,
-      onFold,
-      todoWrapperHeight
-    } = this;
+    const { input, todos, folded, loading } = this.state;
+    const { onChange, onCreate, onKeyPress, onToggle, onRemove, onFold } = this;
 
     return (
       <TodoListTemplate
@@ -110,7 +106,12 @@ class App extends Component {
         folded={folded}
         subtitle={<Subtitle folded={folded} onFold={onFold} />}
       >
-        <TodoItemList onToggle={onToggle} onRemove={onRemove} todos={todos} />
+        <TodoItemList
+          onToggle={onToggle}
+          onRemove={onRemove}
+          todos={todos}
+          loading={loading}
+        />
       </TodoListTemplate>
     );
   }
