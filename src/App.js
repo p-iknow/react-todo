@@ -8,9 +8,7 @@ import Subtitle from './components/Subtitle.jsx';
 import { ERROR_MSG } from './constants';
 
 class App extends Component {
-  state = { input: '', todos: [], folded: false, height: '0px' };
-
-  todoWrapperHeight = React.createRef('');
+  state = { input: '', todos: [], folded: false };
 
   componentDidMount = async () => {
     const errorMsg = ERROR_MSG.FETCh;
@@ -81,10 +79,8 @@ class App extends Component {
 
   onFold = () => {
     const { folded } = this.state;
-    const { todoWrapperHeight } = this;
     this.setState({
-      folded: !folded,
-      height: folded ? `${todoWrapperHeight.current.scrollHeight}px` : '0px'
+      folded: !folded
     });
   };
 
@@ -112,8 +108,6 @@ class App extends Component {
         }
         status={<Status />}
         folded={folded}
-        height={height}
-        refTodoWrapperHeight={todoWrapperHeight}
         subtitle={<Subtitle folded={folded} onFold={onFold} />}
       >
         <TodoItemList onToggle={onToggle} onRemove={onRemove} todos={todos} />

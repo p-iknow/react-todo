@@ -25,6 +25,9 @@
 }
 
 .todos-wrapper {
-  transition: max-height 0.4s;
   overflow: hidden;
+
+  &.folded {
+    height: 0;
+  }
 }

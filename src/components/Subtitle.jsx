@@ -6,19 +6,12 @@ const Subtitle = ({ folded, onFold }) => {
   return (
     <div className="subTitle">
       <div className="name">TODO ITEMS</div>
-      {/* <div
-        className="fold"
-        onClick={() => {
-          onFold();
-        }}
-      > */}
       <IoIosArrowDown
         className={`fold ${folded ? 'rotate' : ''}`}
         onClick={() => {
           onFold();
         }}
       />
-      {/* </div> */}
     </div>
   );
 };
