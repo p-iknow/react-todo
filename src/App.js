@@ -14,24 +14,26 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState('');
 
+  const fetchTodos = async () => {
+    const errorMsg = ERROR_MSG.FETCh;
+    // 2초간 loading 화면을 보여주기 위한 세팅
+    await sleep();
+    try {
+      const response = await fetch(FetchUrl);
+      if (!response.ok) throw new Error(errorMsg);
+
+      const data = await response.json();
+
+      if (!data.statusCode === 200) throw new Error(errorMsg);
+      setTodos(data.body);
+      setLoading(false);
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
   useEffect(() => {
-    (async () => {
-      const errorMsg = ERROR_MSG.FETCh;
-      // 2초간 loading 화면을 보여주기 위한 세팅
-      await sleep();
-      try {
-        const response = await fetch(FetchUrl);
-        if (!response.ok) throw new Error(errorMsg);
-
-        const data = await response.json();
-
-        if (!data.statusCode === 200) throw new Error(errorMsg);
-        setTodos(data.body);
-        setLoading(false);
-      } catch (err) {
-        console.warn(err);
-      }
-    })();
+    fetchTodos();
   }, []);
 
   const onChange = ({ target }) => {
