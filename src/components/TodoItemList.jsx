@@ -2,9 +2,10 @@ import React from 'react';
 import TodoItem from './TodoItem.jsx';
 import Loader from './Loader.jsx';
 
-const TodoItemList = ({ todos, onToggle, onRemove, loading }) => {
+const TodoItemList = ({ todos, onToggle, onRemove, loading, error }) => {
   if (loading) return <Loader />;
-
+  if (error) return <div>에러가 발생했습니다</div>;
+  if (!todos) return null;
   const list = todos.map(todo => (
     <TodoItem
       key={todo.id}

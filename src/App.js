@@ -1,40 +1,33 @@
 import { hot } from 'react-hot-loader/root';
 import React, { useState, useEffect } from 'react';
+import useFetch from './hooks/useFetch';
 import TodoListTemplate from './components/TodoListTemplate.jsx';
 import TodoItemList from './components/TodoItemList.jsx';
 import Form from './components/Form.jsx';
 import Status from './components/Status.jsx';
 import Subtitle from './components/Subtitle.jsx';
-import { sleep } from './utils';
-import { ERROR_MSG } from './constants';
+import sleep from './utils/sleep';
 
 const App = () => {
   const [todos, setTodos] = useState([]);
   const [folded, setFolded] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [value, setValue] = useState('');
 
   const fetchTodos = async () => {
-    const errorMsg = ERROR_MSG.FETCh;
-    // 2초간 loading 화면을 보여주기 위한 세팅
+    // 로딩을 명시적으로 보여주기위한 2초 지연
     await sleep();
-    try {
-      const response = await fetch(FetchUrl);
-      if (!response.ok) throw new Error(errorMsg);
-
-      const data = await response.json();
-
-      if (!data.statusCode === 200) throw new Error(errorMsg);
-      setTodos(data.body);
-      setLoading(false);
-    } catch (err) {
-      console.warn(err);
-    }
+    const response = await fetch(FetchUrl);
+    const data = await response.json();
+    return data.body;
   };
 
+  const [todosFetchState] = useFetch(fetchTodos, []);
+  const { data, loading, error } = todosFetchState;
+
   useEffect(() => {
-    fetchTodos();
-  }, []);
+    setTodos(data);
+    // eslint-disable-next-line
+  }, [data]);
 
   const onChange = ({ target }) => {
     setValue(target.value);
@@ -98,6 +91,7 @@ const App = () => {
         onRemove={onRemove}
         todos={todos}
         loading={loading}
+        error={error}
       />
     </TodoListTemplate>
   );
