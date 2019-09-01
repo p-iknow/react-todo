@@ -82,7 +82,7 @@ const App = () => {
           onKeyPress={onKeyPress}
         />
       }
-      status={<Status />}
+      status={<Status todos={todos} />}
       folded={folded}
       subtitle={<Subtitle folded={folded} onFold={onFold} />}
     >
