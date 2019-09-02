@@ -1,4 +1,5 @@
 import { useReducer, useEffect } from 'react';
+import { checkStatus } from '../utils';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -25,7 +26,7 @@ function reducer(state, action) {
   }
 }
 
-function useFetch(callback, deps = [], skip = false) {
+function useFetch({ fetchUrl, deps = [] }) {
   const [state, dispatch] = useReducer(reducer, {
     loading: false,
     data: null,
@@ -35,15 +36,17 @@ function useFetch(callback, deps = [], skip = false) {
   const fetchData = async () => {
     dispatch({ type: 'LOADING' });
     try {
-      const data = await callback();
-      dispatch({ type: 'SUCCESS', data });
+      const response = await fetch(fetchUrl);
+      const data = await response.json();
+      const [message, isSuccess] = checkStatus(data.statusCode);
+      if (isSuccess) dispatch({ type: 'SUCCESS', data: data.body });
+      else throw new Error(message);
     } catch (e) {
-      dispatch({ type: 'ERROR', error: e });
+      dispatch({ type: 'ERROR', error: e.message });
     }
   };
 
   useEffect(() => {
-    if (skip) return;
     fetchData();
     // eslint-disable-next-line
   }, deps);

@@ -6,22 +6,12 @@ import TodoItemList from './components/TodoItemList.jsx';
 import Form from './components/Form.jsx';
 import Status from './components/Status.jsx';
 import Subtitle from './components/Subtitle.jsx';
-import sleep from './utils/sleep';
 
 const App = () => {
   const [todos, setTodos] = useState([]);
   const [folded, setFolded] = useState(false);
   const [value, setValue] = useState('');
-
-  const fetchTodos = async () => {
-    // 로딩을 명시적으로 보여주기위한 2초 지연
-    await sleep();
-    const response = await fetch(FetchUrl);
-    const data = await response.json();
-    return data.body;
-  };
-
-  const [todosFetchState] = useFetch(fetchTodos, []);
+  const [todosFetchState] = useFetch({ fetchUrl: FetchUrl });
   const { data, loading, error } = todosFetchState;
 
   useEffect(() => {

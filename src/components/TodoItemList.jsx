@@ -4,7 +4,7 @@ import Loader from './Loader.jsx';
 
 const TodoItemList = ({ todos, onToggle, onRemove, loading, error }) => {
   if (loading) return <Loader />;
-  if (error) return <div>에러가 발생했습니다</div>;
+  if (error) return <div>{error}</div>;
   if (!todos) return null;
   const list = todos.map(todo => (
     <TodoItem
