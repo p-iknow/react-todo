@@ -11,9 +11,8 @@ const App = () => {
   const [todos, setTodos] = useState([]);
   const [folded, setFolded] = useState(false);
   const [value, setValue] = useState('');
-  const [todosFetchState] = useFetch({ fetchUrl: FetchUrl });
+  const [todosFetchState, refetch] = useFetch({ fetchUrl: FetchUrl });
   const { data, loading, error } = todosFetchState;
-
   useEffect(() => {
     setTodos(data);
     // eslint-disable-next-line
@@ -82,6 +81,7 @@ const App = () => {
         todos={todos}
         loading={loading}
         error={error}
+        refetch={refetch}
       />
     </TodoListTemplate>
   );

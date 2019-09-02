@@ -2,10 +2,18 @@ import React from 'react';
 import './Status.scss';
 
 const Status = ({ todos }) => {
-  if (!todos) return null;
-  const all = todos.length;
-  const todo = todos.filter(todo => todo.status === 'todo').length;
-  const done = all - todo;
+  let all; let todo; let done;
+
+  if (todos) {
+    all = todos.length;
+    todo = todos.filter(todo => todo.status === 'todo').length;
+    done = all - todo;
+  } else {
+    all = 0;
+    todo = 0;
+    done = 0;
+  }
+
   return (
     <div className="status">
       <div className="counter all">ALL: {all}</div>

@@ -35,6 +35,7 @@ function useFetch({ fetchUrl, deps = [] }) {
 
   const fetchData = async () => {
     dispatch({ type: 'LOADING' });
+
     try {
       const response = await fetch(fetchUrl);
       const data = await response.json();

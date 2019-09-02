@@ -3,7 +3,6 @@ import { MdDone, MdDelete } from 'react-icons/md';
 import './TodoItem.scss';
 
 const TodoItem = ({ title, id, onToggle, onRemove, status }) => {
-  console.log('TodoItem 컴포넌트가 변동되고 있습니다.');
   return (
     <div
       role="presentation"

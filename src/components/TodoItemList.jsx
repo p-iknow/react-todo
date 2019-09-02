@@ -1,10 +1,18 @@
 import React from 'react';
 import TodoItem from './TodoItem.jsx';
 import Loader from './Loader.jsx';
+import Refetch from './Refetch.jsx';
 
-const TodoItemList = ({ todos, onToggle, onRemove, loading, error }) => {
+const TodoItemList = ({
+  todos,
+  onToggle,
+  onRemove,
+  loading,
+  error,
+  refetch
+}) => {
   if (loading) return <Loader />;
-  if (error) return <div>{error}</div>;
+  if (error) return <Refetch refetch={refetch} />;
   if (!todos) return null;
   const list = todos.map(todo => (
     <TodoItem
