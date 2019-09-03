@@ -1,7 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Form.scss';
 
-const Form = ({ value, onChange, onCreate, onKeyPress }) => {
+const Form = ({ todos, setTodos }) => {
+
+  const [value, setValue] = useState('');
+
+  const onChange = ({ target }) => {
+    setValue(target.value);
+  };
+
+  const onCreate = () => {
+    setTodos([
+      ...todos,
+      {
+        id: Date.now(),
+        title: value,
+        status: 'todo'
+      }
+    ]);
+    setValue('');
+  };
+
+  const onKeyPress = ({ key }) => {
+    if (key === 'Enter') {
+      onCreate();
+    }
+  };
+
+
   return (
     <div className="form">
       <input
