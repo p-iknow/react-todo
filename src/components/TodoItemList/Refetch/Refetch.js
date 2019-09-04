@@ -1,8 +1,11 @@
 import React from 'react';
-import { IoMdRefresh } from 'react-icons/io';
 import './Refetch.scss';
+import { IoMdRefresh } from 'react-icons/io';
+import { useRefetch } from '../../../TodoContext';
 
-const Refetch = ({ refetch }) => {
+const Refetch = () => {
+  const refetch = useRefetch();
+
   return (
     <div className="refetch-wrapper">
       <IoMdRefresh className="refetch" onClick={() => refetch()} />

@@ -1,33 +1,9 @@
 import { useReducer, useEffect } from 'react';
 import { checkStatus } from '../utils';
-
-function reducer(state, action) {
-  switch (action.type) {
-    case 'LOADING':
-      return {
-        loading: true,
-        data: null,
-        error: null
-      };
-    case 'SUCCESS':
-      return {
-        loading: false,
-        data: action.data,
-        error: null
-      };
-    case 'ERROR':
-      return {
-        loading: false,
-        data: null,
-        error: action.error
-      };
-    default:
-      throw new Error(`Unhandled action type: ${action.type}`);
-  }
-}
+import { fetchReducer } from '../reducer';
 
 function useFetch({ fetchUrl, deps = [] }) {
-  const [state, dispatch] = useReducer(reducer, {
+  const [state, dispatch] = useReducer(fetchReducer, {
     loading: false,
     data: null,
     error: false

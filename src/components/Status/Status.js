@@ -1,17 +1,22 @@
 import React from 'react';
 import './Status.scss';
+import { useTodoState } from '../../TodoContext';
+import { isEmptyArr } from '../../utils';
 
-const Status = ({ todos }) => {
-  let all; let todo; let done;
+const Status = () => {
+  const todos = useTodoState();
+  let all;
+  let todo;
+  let done;
 
-  if (todos) {
-    all = todos.length;
-    todo = todos.filter(todo => todo.status === 'todo').length;
-    done = all - todo;
-  } else {
+  if (isEmptyArr(todos)) {
     all = 0;
     todo = 0;
     done = 0;
+  } else {
+    all = todos.length;
+    todo = todos.filter(todo => todo.status === 'todo').length;
+    done = all - todo;
   }
 
   return (

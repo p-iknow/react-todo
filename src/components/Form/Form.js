@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
+import { useTodoDispatch } from '../../TodoContext';
 import './Form.scss';
 
-const Form = ({ todos, setTodos }) => {
-
+const Form = () => {
   const [value, setValue] = useState('');
+  const dispatch = useTodoDispatch();
 
   const onChange = ({ target }) => {
     setValue(target.value);
   };
 
   const onCreate = () => {
-    setTodos([
-      ...todos,
-      {
+    dispatch({
+      type: 'TDDO_CREATE',
+      todo: {
         id: Date.now(),
         title: value,
         status: 'todo'
       }
-    ]);
+    });
     setValue('');
   };
 
@@ -26,7 +27,6 @@ const Form = ({ todos, setTodos }) => {
       onCreate();
     }
   };
-
 
   return (
     <div className="form">

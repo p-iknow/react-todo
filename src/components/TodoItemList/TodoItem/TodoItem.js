@@ -1,8 +1,25 @@
 import React from 'react';
 import { MdDone, MdDelete } from 'react-icons/md';
 import './TodoItem.scss';
+import { useTodoDispatch } from '../../../TodoContext';
 
-const TodoItem = ({ title, id, onToggle, onRemove, status }) => {
+const TodoItem = ({ title, id, status }) => {
+  const dispatch = useTodoDispatch();
+
+  const onToggle = () => {
+    dispatch({
+      type: 'TODO_TOGGLE',
+      id
+    });
+  };
+
+  const onRemove = () => {
+    dispatch({
+      type: 'TODO_REMOVE',
+      id
+    });
+  };
+
   return (
     <div
       role="presentation"
