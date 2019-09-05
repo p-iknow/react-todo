@@ -12,7 +12,7 @@ const Form = () => {
 
   const onCreate = () => {
     dispatch({
-      type: 'TDDO_CREATE',
+      type: 'TODO_CREATE',
       todo: {
         id: Date.now(),
         title: value,

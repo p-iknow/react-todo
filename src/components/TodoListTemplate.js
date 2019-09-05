@@ -7,7 +7,6 @@ import Subtitle from './Subtitle';
 
 const TodoListTemplate = () => {
   const [folded, setFolded] = useState(false);
-
   return (
     <main className="todo-list-template">
       <div className="title">TODO LIST</div>
@@ -18,7 +17,7 @@ const TodoListTemplate = () => {
         <Status />
       </section>
       <section className="subtitle-wrapper">
-        <Subtitle folded={folded} onFold={setFolded} />
+        <Subtitle folded={folded} setFolded={setFolded} />
       </section>
       <section className={`todos-wrapper ${folded ? 'folded' : ''}`}>
         <TodoItemList />
