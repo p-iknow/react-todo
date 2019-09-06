@@ -6,10 +6,16 @@
   "author": "P-iknow <apricotsoul@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "node app.js",
+    "react-start": "webpack-dev-server --config ./webpack.dev.js --progress --colors",
+    "react-build": "webpack --config ./webpack.prod.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.10.1",
+    "express": "^4.17.1",
+    "http-errors": "^1.7.3",
+    "morgan": "^1.9.1",
+    "pug": "^2.0.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-icons": "^3.7.0",
