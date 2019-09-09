@@ -1,0 +1,17 @@
+.status {
+  display: flex;
+  justify-content: space-around;
+
+  .counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid $color-input-border;
+    border-radius: 5%;
+    width: 8rem;
+    min-height: 3.125rem;
+    text-align: center;
+    color: grey;
+    font-weight: bold;
+  }
+}

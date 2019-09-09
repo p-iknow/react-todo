@@ -4,14 +4,11 @@ const { DefinePlugin } = require('webpack');
 const port = process.env.PORT || 8080;
 
 module.exports = {
-  mode: 'development',
-  externals: {
-    fetchUrl: ['./config']
-  },
+  mode: 'production',
   entry: './src/index.js',
   output: {
-    path: `${__dirname}/dist`,
-    filename: 'bundle.[hash].js'
+    path: `${__dirname}/public`,
+    filename: 'bundle.js'
   },
   module: {
     rules: [
@@ -24,18 +21,14 @@ module.exports = {
         test: /\.scss$/,
         use: [
           {
-            loader: 'style-loader',
-            options: {
-              sourceMap: true
-            }
+            loader: 'style-loader'
           },
           {
             loader: 'css-loader',
             options: {
               modules: {
                 localIdentName: '[local]'
-              },
-              sourceMap: true
+              }
             }
           },
           {
@@ -64,9 +57,7 @@ module.exports = {
       favicon: './public/favicon.ico'
     }),
     new DefinePlugin({
-      FetchUrl: JSON.stringify(
-        'https://h3rb9c0ugl.execute-api.ap-northeast-2.amazonaws.com/develop/todolist'
-      )
+      FetchUrl: JSON.stringify('/api/todos')
     })
   ],
   devtool: 'inline-source-map',

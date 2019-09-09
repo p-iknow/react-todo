@@ -1,4 +1,5 @@
 .todo-list-template {
+  position: relative;
   background: $color-box-bg;
   width: 512px;
   box-shadow: $box-shadow;
@@ -10,7 +11,7 @@
   padding: 2rem;
   font-size: 2.5rem;
   text-align: center;
-  font-weight: 100;
+  font-weight: 400;
   background: $color-bg;
   color: white;
 }
@@ -18,10 +19,15 @@
   padding: 1rem;
 }
 
-.nav-wrapper {
+.status-wrapper {
+  padding-bottom: 1.5rem;
   border-bottom: 2px solid $color-border;
 }
 
-.todo-wrapper {
-  min-height: 5rem;
+.todos-wrapper {
+  overflow: hidden;
+
+  &.folded {
+    height: 0;
+  }
 }

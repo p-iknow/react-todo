@@ -1,0 +1,24 @@
+.refetch-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: grey;
+  margin: 1rem;
+
+  .refetch {
+    font-size: 70px;
+    &:hover {
+      color: #5e86db;
+      cursor: pointer;
+      transition: transform 0.5s ease-in-out;
+      transform: rotate(360deg);
+    }
+  }
+
+  .text {
+    margin: 1rem;
+    font-size: 1rem;
+    text-align: center;
+  }
+}
