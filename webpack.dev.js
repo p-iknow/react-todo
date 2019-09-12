@@ -57,8 +57,8 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',
-      favicon: './public/favicon.ico'
+      template: './dist/index.html',
+      favicon: './dist/favicon.ico'
     }),
     new DefinePlugin({
       FetchUrl: JSON.stringify(

@@ -13,7 +13,8 @@ const TodoItem = ({ title, id, status }) => {
     });
   };
 
-  const onRemove = () => {
+  const onRemove = e => {
+    e.stopPropagation();
     dispatch({
       type: 'TODO_REMOVE',
       id
@@ -24,9 +25,7 @@ const TodoItem = ({ title, id, status }) => {
     <div
       role="presentation"
       className="todo-item"
-      onClick={() => {
-        onToggle(id);
-      }}
+      onClick={onToggle}
     >
       <div className={`check-circle ${status === 'done' && 'done'}`}>
         {status === 'done' && <MdDone />}
@@ -36,10 +35,7 @@ const TodoItem = ({ title, id, status }) => {
       </div>
       <div
         className="remove"
-        onClick={e => {
-          e.stopPropagation();
-          onRemove(id);
-        }}
+        onClick={onRemove}
       >
         <MdDelete />
       </div>
