@@ -9,7 +9,7 @@ const TodoItem = ({ title, id, status }) => {
   const onToggle = () => {
     dispatch({
       type: 'TODO_TOGGLE',
-      id
+      id,
     });
   };
 
@@ -17,29 +17,22 @@ const TodoItem = ({ title, id, status }) => {
     e.stopPropagation();
     dispatch({
       type: 'TODO_REMOVE',
-      id
+      id,
     });
   };
 
   return (
-    <div
-      role="presentation"
-      className="todo-item"
-      onClick={onToggle}
-    >
+    <div role="presentation" className="todo-item" onClick={onToggle}>
       <div className={`check-circle ${status === 'done' && 'done'}`}>
         {status === 'done' && <MdDone />}
       </div>
       <div className={`todo-text ${status === 'done' && 'checked'}`}>
         <div>{title}</div>
       </div>
-      <div
-        className="remove"
-        onClick={onRemove}
-      >
+      <div className="remove" onClick={onRemove}>
         <MdDelete />
       </div>
     </div>
   );
 };
-export default TodoItem;
+export default React.memo(TodoItem);

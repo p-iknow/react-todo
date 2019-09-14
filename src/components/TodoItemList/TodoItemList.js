@@ -8,6 +8,7 @@ import { useTodoState, useFetchState } from '../../TodoContext';
 const TodoItemList = () => {
   const { loading, error } = useFetchState();
   const todos = useTodoState();
+
   if (loading) return <Loader />;
   if (error) return <Refetch />;
   if (isEmptyArr(todos)) return null;
@@ -24,4 +25,4 @@ const TodoItemList = () => {
   return <div>{list}</div>;
 };
 
-export default TodoItemList;
+export default React.memo(TodoItemList);

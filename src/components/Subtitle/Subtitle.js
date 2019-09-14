@@ -5,7 +5,7 @@ import { IoIosArrowDown } from 'react-icons/io';
 const Subtitle = ({ folded, setFolded }) => {
   const onFold = () => {
     setFolded(!folded);
-  }
+  };
 
   return (
     <div className="subTitle">

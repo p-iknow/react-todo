@@ -45,4 +45,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default React.memo(Form);
