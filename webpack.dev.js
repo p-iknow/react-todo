@@ -63,6 +63,9 @@ module.exports = {
     new DefinePlugin({
       FetchUrl: JSON.stringify(
         'https://h3rb9c0ugl.execute-api.ap-northeast-2.amazonaws.com/develop/todolist'
+      ),
+      ImgURL: JSON.stringify(
+        'https://lh3.googleusercontent.com/5CNo4tlDYDJ2N8qyRoLlTKEx7CvuCSdr-iiSaQob5EGRGrvy9QFnX0HufdPGRHWuq7-v'
       )
     })
   ],

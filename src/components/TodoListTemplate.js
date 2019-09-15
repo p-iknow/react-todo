@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Nav from './Nav';
 import Todo from './Todo';
 import Home from './Home';
+import About from './About';
 
 const TodoListTemplate = () => {
   return (
@@ -14,6 +15,7 @@ const TodoListTemplate = () => {
         <Switch>
           <Route path="/home" component={Home} />
           <Route path="/todo" component={Todo} />
+          <Route path="/about" component={About} />
         </Switch>
       </Router>
     </main>

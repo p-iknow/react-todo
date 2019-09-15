@@ -14,8 +14,9 @@ nav {
 
       .link {
         position: relative;
-        color: grey;
+        color: lighten(grey, 25%);
         font-size: 1.375rem;
+        font-weight: bold;
         text-decoration: none;
         transition: all 0.3s ease-in-out 0s;
         &:before {
@@ -31,18 +32,18 @@ nav {
           transition: all 0.3s ease-in-out 0s;
         }
         &:hover {
-          color: #b16ef0;
+          color: $color-highlight-text;
           &:before {
             visibility: visible;
-            background-color: #b16ef0;
+            background-color: $color-highlight-text;
             transform: scaleX(1);
           }
         }
         &.selected {
-          color: #b16ef0;
+          color: $color-highlight-text;
           &:before {
             visibility: visible;
-            background-color: #b16ef0;
+            background-color: $color-highlight-text;
             transform: scaleX(1);
           }
         }

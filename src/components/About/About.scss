@@ -1,0 +1,19 @@
+.about-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  color: darken(grey, 10%);
+  h2 {
+    margin-top: 2rem;
+    font-weight: 600;
+    font-size: 2.125rem;
+    line-height: 2rem;
+  }
+  p {
+    font-size: 1.25rem;
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
