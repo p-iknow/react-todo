@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { MdDone, MdDelete } from 'react-icons/md';
 import './TodoItem.scss';
 import { useTodoDispatch } from '../../../TodoContext';
@@ -9,7 +10,7 @@ const TodoItem = ({ title, id, status }) => {
   const onToggle = () => {
     dispatch({
       type: 'TODO_TOGGLE',
-      id,
+      id
     });
   };
 
@@ -17,7 +18,7 @@ const TodoItem = ({ title, id, status }) => {
     e.stopPropagation();
     dispatch({
       type: 'TODO_REMOVE',
-      id,
+      id
     });
   };
 
@@ -35,4 +36,11 @@ const TodoItem = ({ title, id, status }) => {
     </div>
   );
 };
+
+TodoItem.propTypes = {
+  title: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  status: PropTypes.string.isRequired
+};
+
 export default React.memo(TodoItem);

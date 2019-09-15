@@ -81,3 +81,15 @@ export default Form;
 #### 추가
 
  하나의 `todoItem` 의 상태가 변경될 때 나머지 모두 rerendering 되어 todoItem에도 React.memo를 적용했다. 이외 다른 컴포넌트에도 리렌더링 방지를 목적으로 React.memo 를 적용했다. 
+
+## propType
+
+### 느껴지는 장점
+
+- 타입을 강제하여 예상치 못한 오류를 빠르게 발견할 수 있음
+- 타인이 컴포넌트 구조를 파악할 때 용이함 
+
+### 아쉬운 점
+
+- useState or useContext 를 통해 생성된 값의 경우 type 강제가 어려움 
+- 이러한 이유로 typescript 사용이 필요해지는 것으로 보임 
