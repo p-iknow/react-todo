@@ -13,13 +13,38 @@ nav {
       width: 33.333%;
 
       .link {
-        color: lighten(#b16ef0, 10%);
+        position: relative;
+        color: grey;
         font-size: 1.375rem;
         text-decoration: none;
-        &.selected {
-          font-weight: bold;
+        transition: all 0.3s ease-in-out 0s;
+        &:before {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          bottom: -5px;
+          left: 0;
+          background-color: #f2f2f2;
+          visibility: hidden;
+          transform: scaleX(0);
+          transition: all 0.3s ease-in-out 0s;
+        }
+        &:hover {
           color: #b16ef0;
-          text-decoration: underline;
+          &:before {
+            visibility: visible;
+            background-color: #b16ef0;
+            transform: scaleX(1);
+          }
+        }
+        &.selected {
+          color: #b16ef0;
+          &:before {
+            visibility: visible;
+            background-color: #b16ef0;
+            transform: scaleX(1);
+          }
         }
       }
     }
