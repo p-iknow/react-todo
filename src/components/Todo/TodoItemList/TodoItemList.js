@@ -2,8 +2,8 @@ import React from 'react';
 import TodoItem from './TodoItem';
 import Loader from './Loader';
 import Refetch from './Refetch';
-import { isEmptyArr } from '../../utils';
-import { useTodoState, useFetchState } from '../TodoContext';
+import { isEmptyArr } from '../../../utils';
+import { useTodoState, useFetchState } from '../../TodoContext';
 
 const TodoItemList = () => {
   const { loading, error } = useFetchState();

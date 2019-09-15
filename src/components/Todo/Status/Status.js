@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import './Status.scss';
-import { useTodoState } from '../TodoContext';
-import { countTodoStatus } from '../../utils';
+import { useTodoState } from '../../TodoContext';
+import { countTodoStatus } from '../../../utils';
 
 const Status = () => {
   const todos = useTodoState();

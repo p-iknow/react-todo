@@ -5,6 +5,7 @@
   box-shadow: $box-shadow;
   margin: 0 auto;
   margin-top: 4rem;
+  margin-bottom: 4rem;
 }
 
 .title {
@@ -14,20 +15,4 @@
   font-weight: 400;
   background: $color-bg;
   color: white;
-}
-.form-wrapper {
-  padding: 1rem;
-}
-
-.status-wrapper {
-  padding-bottom: 1.5rem;
-  border-bottom: 2px solid $color-border;
-}
-
-.todos-wrapper {
-  overflow: hidden;
-
-  &.folded {
-    height: 0;
-  }
 }

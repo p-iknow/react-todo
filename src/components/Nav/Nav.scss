@@ -1,4 +1,27 @@
 nav {
-  margin-top: 2rem;
-  margin-left: 2rem;
+  .links {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    .link-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      list-style-type: none;
+      text-align: center;
+      height: 50px;
+      width: 33.333%;
+
+      .link {
+        color: lighten(#b16ef0, 10%);
+        font-size: 1.375rem;
+        text-decoration: none;
+        &.selected {
+          font-weight: bold;
+          color: #b16ef0;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
 }

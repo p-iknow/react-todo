@@ -5,18 +5,18 @@ import './Nav.scss';
 const Nav = () => {
   return (
     <nav>
-      <ul>
-        <li>
+      <ul className="links">
+        <li className="link-wrapper">
           <NavLink className="link" activeClassName="selected" to="/home">
             Home
           </NavLink>
         </li>
-        <li>
+        <li className="link-wrapper">
           <NavLink className="link" activeClassName="selected" to="/todo">
-            할일관리
+            Todo
           </NavLink>
         </li>
-        <li>
+        <li className="link-wrapper">
           <NavLink className="link" activeClassName="selected" to="/about">
             About
           </NavLink>
