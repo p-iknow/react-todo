@@ -1,7 +1,7 @@
 import React from 'react';
 import './Refetch.scss';
 import { IoMdRefresh } from 'react-icons/io';
-import { useRefetch } from '../../../TodoContext';
+import { useRefetch } from '../../TodoContext';
 
 const Refetch = () => {
   const refetch = useRefetch();

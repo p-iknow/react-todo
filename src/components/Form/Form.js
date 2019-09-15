@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useTodoDispatch } from '../../TodoContext';
+import { useTodoDispatch } from '../TodoContext';
 import { isBlank } from '../../utils';
 import './Form.scss';
 

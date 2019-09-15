@@ -1,7 +1,7 @@
 import React, { useReducer, createContext, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useFetch } from './hooks';
-import { todoReducer } from './reducer';
+import { useFetch } from '../hooks';
+import { todoReducer } from '../reducer';
 
 const TodoStateContext = createContext();
 const TodoDispatchContext = createContext();

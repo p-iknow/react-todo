@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import './Status.scss';
-import { useTodoState } from '../../TodoContext';
+import { useTodoState } from '../TodoContext';
 import { isEmptyArr } from '../../utils';
 
 const countTodoStatus = todos => {
