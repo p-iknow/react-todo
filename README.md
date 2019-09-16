@@ -19,4 +19,9 @@
 
 ### Reack Hooks 활용 
 
-- [React Hooks 를 활용한 TODO App 기능 구현](./doc/step18)  
+- [React Hooks 를 활용한 TODO App 기능 구현](./doc/step18.md)  
+
+### React 최적화 및 React Router 적용 
+
+- [React.memo, useMemo, useCallback 활용한 최적화 및  prop-types 을 통해 타입 반영](./doc/step19.md)
+- [custom-react-router 를 만들어보며 이해한 SPA 및 History API](https://github.com/P-iknow/custom-react-router)  
