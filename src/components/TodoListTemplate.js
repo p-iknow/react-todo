@@ -5,6 +5,7 @@ import Nav from './Nav';
 import Todo from './Todo';
 import Home from './Home';
 import About from './About';
+import Fallback from './Fallback';
 
 const TodoListTemplate = () => {
   return (
@@ -13,9 +14,10 @@ const TodoListTemplate = () => {
       <Router>
         <Nav />
         <Switch>
-          <Route path="/home" component={Home} />
+          <Route exact path={['/', '/home']} component={Home} />
           <Route path="/todo" component={Todo} />
           <Route path="/about" component={About} />
+          <Route component={Fallback} />
         </Switch>
       </Router>
     </main>
