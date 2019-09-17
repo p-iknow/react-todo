@@ -1,27 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './TodoListTemplate.scss';
-import TodoItemList from './TodoItemList';
-import Form from './Form';
-import Status from './Status';
-import Subtitle from './Subtitle';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Nav from './Nav';
+import Todo from './Todo';
+import Home from './Home';
+import About from './About';
+import Fallback from './Fallback';
 
 const TodoListTemplate = () => {
-  const [folded, setFolded] = useState(false);
   return (
     <main className="todo-list-template">
-      <div className="title">TODO LIST</div>
-      <section className="form-wrapper">
-        <Form />
-      </section>
-      <section className="status-wrapper">
-        <Status />
-      </section>
-      <section className="subtitle-wrapper">
-        <Subtitle folded={folded} setFolded={setFolded} />
-      </section>
-      <section className={`todos-wrapper ${folded ? 'folded' : ''}`}>
-        <TodoItemList />
-      </section>
+      <h1 className="title">TODO LIST</h1>
+      <Router>
+        <Nav />
+        <Switch>
+          <Route exact path={['/', '/home']} component={Home} />
+          <Route path="/todo" component={Todo} />
+          <Route path="/about" component={About} />
+          <Route component={Fallback} />
+        </Switch>
+      </Router>
     </main>
   );
 };

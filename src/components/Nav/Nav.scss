@@ -1,0 +1,53 @@
+nav {
+  .links {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    .link-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      list-style-type: none;
+      text-align: center;
+      height: 50px;
+      width: 33.333%;
+
+      .link {
+        position: relative;
+        color: lighten(grey, 25%);
+        font-size: 1.375rem;
+        font-weight: bold;
+        text-decoration: none;
+        transition: all 0.3s ease-in-out 0s;
+        &:before {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          bottom: -5px;
+          left: 0;
+          background-color: #f2f2f2;
+          visibility: hidden;
+          transform: scaleX(0);
+          transition: all 0.3s ease-in-out 0s;
+        }
+        &:hover {
+          color: $color-highlight-text;
+          &:before {
+            visibility: visible;
+            background-color: $color-highlight-text;
+            transform: scaleX(1);
+          }
+        }
+        &.selected {
+          color: $color-highlight-text;
+          &:before {
+            visibility: visible;
+            background-color: $color-highlight-text;
+            transform: scaleX(1);
+          }
+        }
+      }
+    }
+  }
+}

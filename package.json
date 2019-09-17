@@ -15,11 +15,13 @@
     "express": "^4.17.1",
     "http-errors": "^1.7.3",
     "morgan": "^1.9.1",
+    "prop-types": "^15.7.2",
     "pug": "^2.0.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-icons": "^3.7.0",
-    "react-prop-types": "^0.4.0"
+    "react-prop-types": "^0.4.0",
+    "react-router-dom": "^5.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",

@@ -1,6 +1,7 @@
 import React, { useReducer, createContext, useContext, useEffect } from 'react';
-import { useFetch } from './hooks';
-import { todoReducer } from './reducer';
+import PropTypes from 'prop-types';
+import { useFetch } from '../hooks';
+import { todoReducer } from '../reducer';
 
 const TodoStateContext = createContext();
 const TodoDispatchContext = createContext();
@@ -32,6 +33,10 @@ export function TodoProvider({ children }) {
     </TodoStateContext.Provider>
   );
 }
+
+TodoProvider.propTypes = {
+  children: PropTypes.element.isRequired
+};
 
 export function useTodoState() {
   const context = useContext(TodoStateContext);

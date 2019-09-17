@@ -1,23 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import './Status.scss';
 import { useTodoState } from '../../TodoContext';
-import { isEmptyArr } from '../../utils';
+import { countTodoStatus } from '../../../utils';
 
 const Status = () => {
   const todos = useTodoState();
-  let all;
-  let todo;
-  let done;
-
-  if (isEmptyArr(todos)) {
-    all = 0;
-    todo = 0;
-    done = 0;
-  } else {
-    all = todos.length;
-    todo = todos.filter(todo => todo.status === 'todo').length;
-    done = all - todo;
-  }
+  const count = useMemo(() => countTodoStatus(todos), [todos]);
+  const { all, todo, done } = count;
 
   return (
     <div className="status">
@@ -28,4 +17,4 @@ const Status = () => {
   );
 };
 
-export default Status;
+export default React.memo(Status);

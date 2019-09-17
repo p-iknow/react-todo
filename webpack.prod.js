@@ -7,8 +7,8 @@ module.exports = {
   mode: 'production',
   entry: './src/index.js',
   output: {
-    path: `${__dirname}/public`,
-    filename: 'bundle.js'
+    path: `${__dirname}/dist`,
+    filename: '[name].[chunkhash].js'
   },
   module: {
     rules: [
@@ -53,13 +53,27 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',
-      favicon: './public/favicon.ico'
+      template: './src/index.html',
+      favicon: './dist/favicon.ico'
     }),
     new DefinePlugin({
-      FetchUrl: JSON.stringify('/api/todos')
+      FetchUrl: JSON.stringify('/api/todos'),
+      ImgURL: JSON.stringify(
+        'https://lh3.googleusercontent.com/5CNo4tlDYDJ2N8qyRoLlTKEx7CvuCSdr-iiSaQob5EGRGrvy9QFnX0HufdPGRHWuq7-v'
+      )
     })
   ],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
+  },
   devtool: 'inline-source-map',
   devServer: {
     host: 'localhost',

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTodoDispatch } from '../../TodoContext';
+import { isBlank } from '../../../utils';
 import './Form.scss';
 
 const Form = () => {
@@ -11,6 +12,7 @@ const Form = () => {
   };
 
   const onCreate = () => {
+    if (isBlank(value)) return null;
     dispatch({
       type: 'TODO_CREATE',
       todo: {
@@ -43,4 +45,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default React.memo(Form);
