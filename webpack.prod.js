@@ -1,5 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { DefinePlugin } = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 const port = process.env.PORT || 8080;
 
@@ -54,13 +56,18 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      favicon: './dist/favicon.ico'
+      favicon: './src/asset/favicon.ico'
     }),
     new DefinePlugin({
       FetchUrl: JSON.stringify('/api/todos'),
       ImgURL: JSON.stringify(
         'https://lh3.googleusercontent.com/5CNo4tlDYDJ2N8qyRoLlTKEx7CvuCSdr-iiSaQob5EGRGrvy9QFnX0HufdPGRHWuq7-v'
       )
+    }),
+    new CleanWebpackPlugin(),
+    new ManifestPlugin({
+      fileName: 'assets.json',
+      basePath: '/'
     })
   ],
   optimization: {
