@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import './TodoListTemplate.scss';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Nav from './Nav';
-import Todo from './Todo';
-import Home from './Home';
-import About from './About';
-import Fallback from './Fallback';
+import Loader from './Loader';
+
+const Todo = lazy(() => import('./Todo'));
+const Home = lazy(() => import('./Home'));
+const About = lazy(() => import('./About'));
+const Fallback = lazy(() => import('./Fallback'));
 
 const TodoListTemplate = () => {
   return (
@@ -13,12 +15,14 @@ const TodoListTemplate = () => {
       <h1 className="title">TODO LIST</h1>
       <Router>
         <Nav />
-        <Switch>
-          <Route exact path={['/', '/home']} component={Home} />
-          <Route path="/todo" component={Todo} />
-          <Route path="/about" component={About} />
-          <Route component={Fallback} />
-        </Switch>
+        <Suspense fallback={<Loader />}>
+          <Switch>
+            <Route exact path={['/', '/home']} component={Home} />
+            <Route path="/todo" component={Todo} />
+            <Route path="/about" component={About} />
+            <Route component={Fallback} />
+          </Switch>
+        </Suspense>
       </Router>
     </main>
   );

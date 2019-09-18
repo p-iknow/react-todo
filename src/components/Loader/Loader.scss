@@ -1,0 +1,26 @@
+.fallback-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  color: darken(grey, 10%);
+  .loader {
+    font-size: 70px;
+    animation: App-logo-spin infinite 20s linear;
+  }
+
+  .text {
+    margin: 1rem;
+    font-size: 2rem;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -8,7 +8,8 @@ module.exports = function(api) {
   const plugins = [
     'react-hot-loader/babel',
     '@babel/plugin-proposal-class-properties',
-    '@babel/plugin-transform-runtime'
+    '@babel/plugin-transform-runtime',
+    '@babel/plugin-syntax-dynamic-import'
   ];
 
   return {
