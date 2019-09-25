@@ -7,7 +7,11 @@
 - React hooks 사용하여 TODO Web  App 개발
 - [데모링크](https://codesquad-react-todo.herokuapp.com/)
 
-### 프로젝트를 통해 배운점 
+### 어떤 기술을 사용했는가?
+
+- React Hooks, React Router, Webpack, Sass, Node
+
+### 프로젝트를 통해 무엇을 배웠는가?
 
 - webpack 을 통한 번들링 
 - 리엑트의 렌더링과 라이프 사이클
@@ -36,3 +40,4 @@
 - [React 에서 코드스플리팅 적용하기](./doc/CodeSpliting.md)
 
    
+
