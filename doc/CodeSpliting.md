@@ -1,104 +1,9 @@
-## 최적화
+## TLDR
 
-### useMemo
+- 리엑트 앱에 코드스플리팅을 적용한 경험에 대해 다룬다. 
+- 이와 관련된 웹펙 설정과 리엑트 코드에 대해 다룬다.
 
-fold button을 누를 때 해당 버튼은 todos의 상태와 무관하다. 그러나 해당 버튼을 누를 때마다 각 todo 의 상태 갯수를 구하는 `countTodoStatus` 가 실행된다. 해당 값을 재 사용하기 위해 `useMemo` 를 활용해보자.  
-
-![image](https://user-images.githubusercontent.com/35516239/64905601-bdcb1980-d715-11e9-99e5-1adaf476f3e8.png)
-
-#### Before
-
-```jsx
-const countTodoStatus = todos => {
-  console.count('countTodoStatus is called');
-	...
-  return {
-    all,
-    todo,
-    done
-  };
-};
- 
-const Status = () => {
-  const todos = useTodoState();
-  const { all, todo, done } = countTodoStatus(todos);
-
-  return (
-    <div className="status">
-      <div className="counter all">ALL: {all}</div>
-      <div className="counter todo">TODO: {todo}</div>
-      <div className="counter done">DONE: {done}</div>
-    </div>
-  );
-};
-```
-
-#### After 
-
-```js
-const Status = () => {
-  const todos = useTodoState();
-  const count = useMemo(() => countTodoStatus(todos), [todos]);
-  const { all, todo, done } = count;
-
-  return (
- 		...
-  );
-};
-```
-
-`useMemo` 의 첫번째 파라미터에는 어떻게 연산할지 정의하는 함수를 넣어주면 되고 두번째 파라미터에는 `deps` 배열을 넣는다. 이 배열 안에 넣은 내용이 바뀌면, 우리가 등록한 함수를 호출해서 값을 연산해주고,내용이 바뀌지 않았다면 이전에 연산한 값을 재 사용하게 된다.
-
-변경 뒤에 todos가 변경되지 않을 때(Fold 버튼 누를 경우)에 count 값을 재활용하기 때문에 `countTodoStatus` 가 추가로 호출되지 않은 것을 볼 수 있다. 
-
-![image](https://user-images.githubusercontent.com/35516239/64905681-fae3db80-d716-11e9-908c-92107db34249.png)
-
-### React.memo
-
-`Form` 컴포넌트와 Fold 의 상태값은 무관하지만 fold 상태에 변화에 따라 상위 컴포넌트인 `TodoListTemplate` 가 Rerender 되므로 `Form` 컴포넌트 또한 리렌더링 되고 있는 현상을 발견할 수 있었다. `React.memo` 로 Rerender를 방지할 수 있다. 
-
-#### Before
-
-![image](https://user-images.githubusercontent.com/35516239/64909138-4b712e00-d743-11e9-803f-ffd6a6726f55.png)
-
-#### After
-
-`export` 할 때, `React.memo` Form 컴포넌트를 감싸줬다. 이렇게 할 경우 컴포넌트의 props 가 바뀌지 않았다면, 리렌더링을 방지하여 컴포넌트의 리렌더링 성능 최적화를 해줄 수 있다. (참고로 클래스  컴포넌트에서는 ` shouldComponentUpdate`  를 사용한다.)    
-
-```jsx
-const Form = () => {
-  ...
-  return (
-		...
-  );
-};
-
-export default Form;
-```
-
-![image](https://user-images.githubusercontent.com/35516239/64909246-917ac180-d744-11e9-86e9-ba84a9973953.png)
-
-#### 추가
-
- 하나의 `todoItem` 의 상태가 변경될 때 나머지 모두 rerendering 되어 todoItem에도 React.memo를 적용했다. 이외 다른 컴포넌트에도 리렌더링 방지를 목적으로 React.memo 를 적용했다. 
-
-## propType
-
-### 느껴지는 장점
-
-- 타입을 강제하여 예상치 못한 오류를 빠르게 발견할 수 있음
-- 타인이 컴포넌트 구조를 파악할 때 용이함 
-
-### 아쉬운 점
-
-- useState or useContext 를 통해 생성된 값의 경우 type 강제가 어려움 
-- 이러한 이유로 typescript 사용이 필요해지는 것으로 보임 
-
-
-
-## Code Spliting
-
-### 왜 code Spliting 이 필요할까? 
+## 왜 code Spliting 이 필요할까? 
 
 대부분의 React 앱은 [Webpack](https://webpack.js.org/)  같은 도구를 사용하여 "번들 된"파일을 갖게 된다. 번들링은 가져온 파일을 따라 하나의 파일, 즉 "번들"으로 병합하는 프로세스다. 이 번들(js)은 웹 페이지에 포함되어 한 번에 전체 앱을 로드 할 수 있다.
 
@@ -110,7 +15,9 @@ export default Form;
 
 `code splitting`을 하면 자주 바뀌지 않는 부분을 브라우저에 캐싱하고, 바뀐 부분만 로드하거나, 사용자가 현재 필요로하는 것들만 `lazy-load`할 수 있으므로 앱의 성능을 크게 향상시킬 수 있다. 앱의 전체 코드 양을 줄이지는 않지만 사용자가 필요로하지 않은 코드를 로드하는 것을 피하고, 초기 페이지 로드시 필요한 코드만 받게 된다. 이것이 `code splitting` 을 해야하는 이유다. 아래 그 방법을 적었다. 
 
-### [splitChunk](https://webpack.js.org/plugins/split-chunks-plugin/)
+## [splitChunk](https://webpack.js.org/plugins/split-chunks-plugin/)
+
+> 하기 내용은 [요즘 잘나가는 프론트엔드 개발환경](https://shiren.github.io/2018-04-16-요즘-잘나가는-프론트엔드-개발-환경-만들기(2018)-Webpack-4/) 블로그의 글을 옮겼다. 
 
 우선 splitChunk 라는 플러그인을 통해 코드 스플리팅이 가능하다. node_modules 처럼 변하지 않는 JS 파일을 vendor파일로 분리(chunkhash로 네이밍)하여 브라우저 캐시를 활용하도록 최적화 하기 위해 splitChunk 라는 webPakck 내장 플러그인을 설정했다.
 
@@ -156,9 +63,9 @@ module.exports = {
 
 - bundle 이 main 과 vendor 코드로 분리되었다. 잘 바뀌지 않는 vendor 번들의 경우 브라우저에 캐싱하여 매번 로드되지 않도록 하면 초기 로딩시간을 일부 향상 시킬 수 있다. 
 
-![image-20190918192416044](/Users/godot/dev/step17-23/doc/assets/image-20190918192416044.png)
+![after-spliting](https://user-images.githubusercontent.com/35516239/65244941-99f94080-db26-11e9-85fd-5b37de08ff9e.png)
 
-### `React.lazy` 와 `React.Suspend`를 통한 코드 스플리팅
+## `React.lazy` 와 `React.Suspend`를 통한 코드 스플리팅
 
 다음은 `React.lazy` 이다. 이를 사용하면 사용자가 현재 필요로하는 것들만 `lazy-load`할 수 있으므로 앱의 성능을 크게 향상시킬 수 있다`React.lazy` 은 내부적으로  `dynamic import()`(동적 import)구문을 이용한다. 
 
@@ -196,7 +103,7 @@ function MyComponent() {
 
 `MyComponent` 컴포넌트가 랜더링되면 `OtherComponent`컴포넌트를 포함한 번들이 자동으로 로드된다. React 컴포넌트를 `export default`로 해석되는 `Promise`로 반환하고 `React.lazy`로 dynamic `import()`를 할때에는 함수 형태로 사용한다.
 
-### Suspense
+## Suspense
 
 `dynamic import` 를 사용하여 해당 자원이 필요할 때 로딩하면 초기 로딩속도는 분명하게 빨라진다. 그러나 필요할 때 네트워크 요청이 시작되어 불러오므로 요청 부터 화면 렌더링 까지 일정시간  delay가 있을 수 있다. 이때  `Suspense` 컴포넌트를 사용한다면, `MyComponent`가 랜더링 될 때까지 동적으로 불러온 `OtherComponent`가 아직 로드가 되지 않은경우 **로딩중**과 같은 `fallback content` 표현이 가능하다. (실제로 `React.lazy`를 통해 불러온 컴포넌트를 `Suspense` 컴포넌트로 감싸지 않으면 브라우저에서 에러를 낸다.) 
 
@@ -316,13 +223,14 @@ export default TodoListTemplate;
 
 ![screencast 2019-09-18 22-09-38](https://user-images.githubusercontent.com/35516239/65151552-496bdf80-da61-11e9-8b43-12383f5eafd3.gif)
 
-### clean webpack plugin
+## clean webpack plugin
 
 코드를 스플리팅하고 캐쉬 활용을 위해 output 옵션에  [chunkhash] 를 설정했다.  빌드를 몇번 하니 dist 폴더에 금세 분리된 chunk 가 한 가득이다. 이런 경우 빌드할 때 기존의 dist 디렉터리를 지워주고 싶을 수 있는데, `clean webpack plugin` 이 그 역할을 한다.  
 
 ![dirty-dist-because-of-chunk](https://user-images.githubusercontent.com/35516239/65146963-12dd9700-da58-11e9-8c66-f5d7f6d31e9b.png)
 
 플러그인을 설치하고 
+
 ```bash
 yarn add clean-webpack-plugin -D
 ```
@@ -343,9 +251,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 ![image](https://user-images.githubusercontent.com/35516239/65149184-99947300-da5c-11e9-8c1b-89f1df673711.png)
 
-### ManifestPlugin
+## ManifestPlugin
 
-**hash**와 **chunkhash**를 쓰면 문제가 있을 수 있다. *app.js*를 쓰다가 청크해시를 준 이후부터는 *app.청크해시.js*를 사용해야 하는데요. 문제는 청크해시 부분이 어떻게 나올지 미리 예측할 수가 없다는 것이다. 예를 들어 `<script src="app.청크해시.js"></script>`를 할 때 청크해시 부분에 뭐를 넣어줘야할지 모르는 상황이 생긴다.(사실 `HtmlWebpackPlugin` 을 사용하면, `script` 태그를 자동으로 넣어주기 때문에 걱정할 필요가없다.) 나온게 `manifest`이다 
+**hash**와 **chunkhash**를 쓰면 다음과 같이 느낄 수 있다. *app.js*를 쓰다가 청크해시를 준 이후부터는 *app.청크해시.js*를 사용해야 한다. 문제는 청크해시 부분이 어떻게 나올지 미리 예측할 수가 없다는 것이다. 예를 들어 `<script src="app.청크해시.js"></script>`를 할 때 청크해시 부분에 뭐를 넣어줘야할지 모르는 상황이 생긴다.(사실 `HtmlWebpackPlugin` 을 사용하면, `script` 태그를 자동으로 넣어주기 때문에 걱정할 필요가없다.) 이런 상황을 해결하는게  `manifest` 플러그인 이다 
 
 플러그인을 설치하고  
 
@@ -368,7 +276,7 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 }
 ```
 
-이제 build 후에 output의 path 경로에 *assets.json*이 생깁니다. 그 파일을 열어보면
+이제 build 후에 output의 path 경로에 `assets.json`이 생긴다. 그 파일을 열어보면
 
 ```json
 {
@@ -383,5 +291,4 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 }
 ```
 
-이렇게 미리 청크해시값을 알 수 있게 json 구조로 나와있습니다. 나와 청크 해시 값을 알 수 있다. 
-
+이렇게 미리 청크 해시값을 알 수 있게 json 구조로 나와있다.  

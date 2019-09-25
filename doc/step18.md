@@ -1,6 +1,5 @@
 
 
----
 ## 요구 사항
 
 - [x] 새로운 할일을 등록하고, 새로운 할일이 리스트에 추가된다.
@@ -332,7 +331,7 @@ css가 미적용 된 상태로 dom이 로드되어 깜박임이 발생한다.  �
 
 #### 2) 문제 파악 
 
-일단 `stylesheet` 가 어떻게 로드되는지 확인해보자. 크롬 브라우저의 네트워크 탭을 조회했다. `stylesheet` 가 로드될 때 blob url을 통해 분리되어 로드되고 있다. 이것이 이슈가 될 수 있겠다
+일단 `stylesheet` 가 어떻게 로드되는지 확인해보자. 크롬 브라우저의 네트워크 탭을 조회했다. `stylesheet` 가 로드될 때 blob url을 통해 분리되어 로드되고 있다. 이것이 이슈가 될 수 있겠다
 
 ![stylesheet request as blob](https://user-images.githubusercontent.com/35516239/64843552-5f803700-d640-11e9-8873-1e526fe74a57.png)
 
@@ -367,10 +366,6 @@ loader.css.js 하나의 파일이 로더 되면서 **FOUC**(Flash Of Unstyled Co
 ![css loader network tab](https://user-images.githubusercontent.com/35516239/64842915-8e95a900-d63e-11e9-80e3-1644868c0614.png)
 
 사실 FOUC 는 개발단계에서 큰 문제가 되는 사항이 아니다. webpack의 prod mode 빌드시에 souceMap 옵션을 끄고 빌드하고, dev mode에서는 켜두자.
-
-
-
-
 
 ## 미션 진행중 기록 
 

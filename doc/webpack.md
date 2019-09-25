@@ -1,4 +1,8 @@
-1. babel과 Webpack을 활용해서 React 빌드 환경을 구성
+# CRA 없이 직접 REACT WEBPACK 설정하기  
+
+## 들어가며 
+
+webpack, babel 많이 들어는 봤으나 정작 해당 설정을 눈앞에 마주하면 아득 하기만 했다. 설정 이라는 영역은 경험이 쌓이지 않으면 단번에 이해하기가 어렵다. 또한 webpack 과 babel은 수시로 update 되고 규칙과 네이밍이 미세하게 조정되며 어려움을 더한다. 그래서 이번에 리엑트를 시작하며  CRA(create react app) 없이 직접  Webpack 설정을 통해  React 빌드 환경을 구성하고자 한다. webpack에 어려움을 느꼈던 분들에게 도움이 될 수 있었으며 좋겠다. 참고로 이 글은  **2019.08.09** 에 `webpack v4`, `babel 7` 기준으로 작성했다. 
 
 ## 1-1 필요한 Lib 
 
@@ -29,11 +33,11 @@ yarn init -y
 
 # 여러 패키지 한 번에 설치하고 싶으면 패키지명 사이에 한 칸 space로 구분
 # add 를 dependencies 에 설치내용이 추가됨
-yarn add react react-dom react-prop-types 
+yarn add react react-dom react-prop-types @babel/runtime
 
 # -D 플래그를 붙이면 devDependencies 에 설치해서 개발용으로 사용할 수 있음
 
-yarn add @babel/core babel-loader @babel/preset-env babel-preset-react sass-loader node-sass css-loader style-loader html-webpack-plugin webpack webpack-dev-server webpack-cli -D
+yarn add @babel/core babel-loader @babel/preset-env @babel/preset-react @babel/plugin-transform-runtime sass-loader node-sass css-loader style-loader html-webpack-plugin webpack webpack-dev-server webpack-cli -D
 ```
 
 ## 1-3 Babel 설정 
@@ -74,7 +78,8 @@ module.exports = function(api) {
 
 - [react-hot-loader/babel](https://github.com/gaearon/react-hot-loader) : react 프로젝트의 코드 변동시 새로고침이 아닌 변경된 부분만 동적으로 업데이트 되는 옵션)
 - [@babel/plugin-proposal-class-properties](https://github.com/tc39/proposal-class-fields) : TC39 stage 3에 있는 class propery를 사용하기 위한 플러그인이다. 아직 stage에 있는 기능을 코드에 사용하기 위해서는 바벨 설정에 해당 플러그인을 등록해야 한다. 
-- [@babel/plugin-transform-runtime](https://babeljs.io/docs/en/babel-plugin-transform-runtime) : babel 7 이전 버전에서 `@babel/polyfill` 로 폴리필을 설정했으나, 해당 설정은 전역 공간에 폴리필 코드를 노출시켜 전역공간을 오염시키는 이슈가 있었고, 이런 부분을 해결하기 위해 도입되었다. 이 설정을 통해 `async` 같은 함수를 코드에 포함시킬 수 있다. 자세한 내용은 [링크](https://babeljs.io/docs/en/babel-plugin-transform-runtime#why)를 참조하자. 필자는 이 [링크](https://www.valentinog.com/blog/await-react/)를 참조하여 설정을 진행했다.  
+-  [@babel/plugin-transform-runtime](https://babeljs.io/docs/en/babel-plugin-transform-runtime) : babel 7 이전 버전에서 `@babel/polyfill` 로 폴리필을 설정했으나, 해당 설정은 전역 공간에 폴리필 코드를 노출시켜 전역공간을 오염시키는 이슈가 있었고, 이런 부분을 해결하기 위해 도입되었다. 이 설정을 통해 `async` 같은 함수를 코드에 포함시킬 수 있다. 자세한 내용은 [링크](https://babeljs.io/docs/en/babel-plugin-transform-runtime#why)를 참조하자. 필자는 이 [링크](https://www.valentinog.com/blog/await-react/)를 참조하여 설정을 진행했다.
+-  @babel/plugin-transform-runtime에 corejs옵션을 사용하지않으면 regenerator-runtime polyfill만 추가된다. 자세한 내용은 이 [링크](https://babeljs.io/docs/en/babel-plugin-transform-runtime#corejs)를 참조하자 (아직 이 부분에 대한 이해가 부족해 제대로 쓰지 못했다. 여기 쓰여진 내용은 참고만 하고 자세한 내용은 링크를 통해 확인 하셨으면 한다. 추후 업데이트 할 예정이다.) 
 
 ## 1-4 Webpack 설정 
 
@@ -277,6 +282,7 @@ module.exports = {
 .comment-log {
 	background-color:#fff
 }
+
 ```
 
 라는 .scss파일이 있다면
@@ -288,6 +294,7 @@ module.exports = {
 // camelcase 옵션으로 .comment-log -> commentLog 변수 선언 가능
 import { commentLog } from '../styles/commentlog.css
 
+
 ```
 
 이렇게 불러와 사용할 수 있다.
@@ -296,13 +303,16 @@ import { commentLog } from '../styles/commentlog.css
 
   sourceMap 의 경우 나중에 debug 모드에서 병합된 css 파일이 아닌 원 소스 `.sass` 를 통해 debug 할 수 있도록 지원  
 
-##### ![sourcemap](https://user-images.githubusercontent.com/35516239/62781584-49d49a80-baf3-11e9-8997-0c4d2823a6ba.png)includePaths, data 
+![sourcemap](https://user-images.githubusercontent.com/35516239/62781584-49d49a80-baf3-11e9-8997-0c4d2823a6ba.png)
+
+##### includePaths, data 
 
 scss 를 사용하는 경우 자주 사용하는 변수 or mixin을 별도에 파일로 지정해두고 각 컴포넌트의 css에서 import(`import ../scss/variable.scss, import ../scss/mixin.scss`)해서 쓰는 경우가 많다. 
 
 ```js
 import '../scss/variable.scss'
 import '../scss/mixin.scss'
+
 ```
 
 이 때 `includePaths` 옵션의 경우 해당 value 값에 지정된 path를 import path 앞에 자동으로 붙여줘 path를 간략하게 쓰도록 도와준다.
@@ -311,6 +321,7 @@ import '../scss/mixin.scss'
 // import '../scss/variable.scss'
 // 대신 이렇게 작성이 가능하다. 
 import 'variable.scss' 
+
 
 ```
 
@@ -332,6 +343,7 @@ module.exports = {
     inline:true
   }
 };
+
 ```
 
 - `devtool`은 [소스 맵(source maps)](https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map)을 생성해 애플리케이션 디버깅을 도와준다. 소스 맵에는 여러 가지 유형이 있으며 그 중 inline-source-map은 은 개발시에만 사용된다. (이외 옵션은 [공식 문서](https://webpack.js.org/configuration/devtool/)를 참고한다.)
@@ -359,6 +371,7 @@ $ webpack-dev-server --inline
 
 //3. 부분 로딩  또는 전체 페이지 로딩
 $ webpack-dev-server  --inline --hot
+
 ```
 
 ### plugins
@@ -380,6 +393,7 @@ module.exports = {
     })
   ],
 };
+
 ```
 
 #### HtmlWebpackPlugin
@@ -400,6 +414,7 @@ new DefinePlugin({
         'https://h3rb9c0ugl.execute-api.ap-northeast-2.amazonaws.com/develop/todolist'
       )
     })
+
 ```
 
 webPack을 통해 complie 될 때 플러그인에 등록한 코드로 바뀌게 된다. 
@@ -591,4 +606,11 @@ export default hot(App);
 
 이제 터미널에서 `yarn start`로 개발 서버를 시작하자
 
+
 ![빌드](/Users/godot/dev/step17-23/assets/빌드.gif)
+
+
+
+## 참고링크
+ -  https://sujinlee.me/webpack-react-tutorial/
+ - [https://velog.io/@padakim/Webpack4-for-React-%EB%A6%AC%EC%95%A1%ED%8A%B8%EB%A5%BC-%EC%9C%84%ED%95%9C-%EC%9B%B9%ED%8C%A94-1-](https://velog.io/@padakim/Webpack4-for-React-리액트를-위한-웹팩4-1-)
